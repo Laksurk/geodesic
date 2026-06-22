@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geodesic</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div class="crosshair" aria-hidden="true"></div>
+    <div class="hud" id="hud">
+      <div class="hud-header">
+        <div class="title">Geodesic</div>
+        <div class="surface-selector" id="surfaceSelector">
+          <button class="selector-toggle" id="selectorToggle" title="切换曲面">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4L8 1L14 4V12L8 15L2 12V4Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+              <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            </svg>
+          </button>
+          <div class="selector-menu" id="selectorMenu">
+            <div class="selector-title">选择曲面</div>
+            <div class="selector-group">
+              <div class="selector-group-title">基本曲面</div>
+              <button data-surface="plane">平面</button>
+              <button data-surface="unit-sphere" class="active">球面</button>
+              <button data-surface="cylinder">圆柱面</button>
+              <button data-surface="torus">环面</button>
+            </div>
+            <div class="selector-group">
+              <div class="selector-group-title">二次曲面</div>
+              <button data-surface="ellipsoid">椭球面</button>
+              <button data-surface="paraboloid">椭圆抛物面</button>
+              <button data-surface="hyperbolic-paraboloid">双曲抛物面</button>
+              <button data-surface="hyperboloid">单叶双曲面</button>
+            </div>
+            <div class="selector-group">
+              <div class="selector-group-title">寻找K=0</div>
+              <button data-surface="klein-bottle">Klein瓶（浸入）</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="hudBody">
+        <div class="hud-row" id="hudName"></div>
+        <div class="hud-row" id="hudFormula"></div>
+        <div class="hud-row" id="hudST"></div>
+        <div class="hud-row" id="hudKg"></div>
+        <div class="hud-row" id="hudKn"></div>
+        <div class="hud-row" id="hudK"></div>
+        <div class="hud-row" id="hudH"></div>
+      </div>
+      <div class="hud-hint">Space: 前进 · 鼠标左右: 转向</div>
+    </div>
+
+    <div class="win-overlay" id="winOverlay">
+      <div class="win-box">
+        <div class="win-title">Congratulations</div>
+        <div class="win-sub">你找到了 K = 0 的点！</div>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

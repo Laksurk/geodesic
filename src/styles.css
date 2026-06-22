@@ -1,0 +1,269 @@
+﻿* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #101820;
+  color: #edf7ff;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+#scene {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.crosshair {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.crosshair::before,
+.crosshair::after {
+  position: absolute;
+  content: "";
+  background: #ff3b3b;
+}
+
+.crosshair::before {
+  left: 13px;
+  top: 0;
+  width: 2px;
+  height: 28px;
+}
+
+.crosshair::after {
+  left: 0;
+  top: 13px;
+  width: 28px;
+  height: 2px;
+}
+
+.hud {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 12px 14px;
+  border: 1px solid rgb(237 247 255 / 0.24);
+  border-radius: 8px;
+  background: rgb(16 24 32 / 0.68);
+  color: rgb(237 247 255 / 0.82);
+  font-size: 13px;
+  line-height: 1.5;
+  backdrop-filter: blur(12px);
+}
+
+.title {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#hudBody {
+  margin-top: 6px;
+}
+
+.hud-row {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgb(237 247 255 / 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-row .label {
+  color: rgb(237 247 255 / 0.40);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.hud-row .val {
+  color: rgb(237 247 255 / 0.88);
+}
+
+.hud-row .val.gauss {
+  color: #7fcfff;
+}
+
+.hud-row .val.normal {
+  color: #d4bfff;
+}
+
+.hud-row .val.geodesic {
+  color: #ffb07c;
+}
+
+.hud-hint {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgb(237 247 255 / 0.1);
+  font-size: 11px;
+  color: rgb(237 247 255 / 0.35);
+}
+
+/* ---- HUD Header Row ---- */
+.hud-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* ---- Surface Selector ---- */
+.surface-selector {
+  position: relative;
+  z-index: 20;
+}
+
+.selector-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgb(237 247 255 / 0.2);
+  border-radius: 6px;
+  background: rgb(237 247 255 / 0.06);
+  color: rgb(237 247 255 / 0.6);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.selector-toggle:hover {
+  background: rgb(237 247 255 / 0.14);
+  color: #ffffff;
+}
+
+.selector-menu {
+  display: none;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  min-width: 220px;
+  padding: 10px;
+  border: 1px solid rgb(237 247 255 / 0.2);
+  border-radius: 10px;
+  background: rgb(20 28 38 / 0.94);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.5);
+}
+
+.surface-selector.open .selector-menu {
+  display: block;
+}
+
+.selector-title {
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgb(237 247 255 / 0.1);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.selector-group {
+  margin-bottom: 8px;
+}
+
+.selector-group:last-child {
+  margin-bottom: 0;
+}
+
+.selector-group-title {
+  margin-bottom: 4px;
+  padding-left: 2px;
+  color: rgb(237 247 255 / 0.4);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selector-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgb(237 247 255 / 0.75);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.selector-menu button:hover {
+  background: rgb(237 247 255 / 0.08);
+  color: #ffffff;
+}
+
+.selector-menu button.active {
+  background: rgb(100 160 255 / 0.18);
+  color: #8cbaff;
+}
+
+/* ---- Win Overlay ---- */
+.win-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgb(0 0 0 / 0.55);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+}
+
+.win-overlay.show {
+  display: flex;
+}
+
+.win-box {
+  padding: 40px 56px;
+  border: 1px solid rgb(255 215 0 / 0.5);
+  border-radius: 16px;
+  background: rgb(20 28 38 / 0.92);
+  text-align: center;
+  animation: winPop 0.4s ease-out;
+}
+
+@keyframes winPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.win-title {
+  margin-bottom: 12px;
+  color: #ffd700;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.win-sub {
+  color: rgb(237 247 255 / 0.7);
+  font-size: 16px;
+}
