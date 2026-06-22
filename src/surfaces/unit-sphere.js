@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createUnitSphereSurface() {
   return new ParametricSurface({
     name: '单位球面 (Sphere)',
-    formula: '𝝋(s, t) = (sin s cos t,  sin s sin t,  cos s)',
+    formula: '(sin s cos t,  sin s sin t,  cos s)',
     domain: {
       s: [0.001, Math.PI - 0.001],
       t: [-Math.PI, Math.PI],

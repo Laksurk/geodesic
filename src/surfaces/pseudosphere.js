@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createPseudosphereSurface() {
   return new ParametricSurface({
     name: '伪球面 (Pseudosphere)',
-    formula: '𝝋(s, t) = (sech s cos t,  sech s sin t,  s − tanh s)',
+    formula: '(sech s cos t,  sech s sin t,  s − tanh s)',
     domain: {
       s: [0.01, 6],
       t: [-Math.PI, Math.PI],

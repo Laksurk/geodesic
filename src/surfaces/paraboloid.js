@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createParaboloidSurface() {
   return new ParametricSurface({
     name: '椭圆抛物面 (Elliptic Paraboloid)',
-    formula: '𝝋(s, t) = (s,  t,  s² + t²)',
+    formula: '(s,  t,  s² + t²)',
     domain: {
       s: [-4, 4],
       t: [-4, 4],

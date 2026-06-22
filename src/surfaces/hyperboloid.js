@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createHyperboloidSurface() {
   return new ParametricSurface({
     name: '单叶双曲面 (Hyperboloid)',
-    formula: '𝝋(s, t) = (cosh s cos t,  cosh s sin t,  sinh s)',
+    formula: '(cosh s cos t,  cosh s sin t,  sinh s)',
     domain: {
       s: [-2.2, 2.2],
       t: [-Math.PI, Math.PI],

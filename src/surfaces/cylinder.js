@@ -5,7 +5,7 @@ export function createCylinderSurface() {
   return new ParametricSurface({
     name: '圆柱面 (Cylinder)',
     periodicS: true,
-    formula: '𝝋(s, t) = (cos s,  sin s,  t)',
+    formula: '(cos s,  sin s,  t)',
     domain: {
       s: [-Math.PI, Math.PI],
       t: [-5, 5],

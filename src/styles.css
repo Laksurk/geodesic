@@ -139,21 +139,26 @@ body {
 .selector-toggle {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  gap: 5px;
+  padding: 4px 8px;
   border: 1px solid rgb(237 247 255 / 0.2);
   border-radius: 6px;
   background: rgb(237 247 255 / 0.06);
-  color: rgb(237 247 255 / 0.6);
+  color: rgb(237 247 255 / 1);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
+  font-size: 12px;
+  font-family: inherit;
+  white-space: nowrap;
 }
 
 .selector-toggle:hover {
   background: rgb(237 247 255 / 0.14);
   color: #ffffff;
+}
+
+.toggle-label {
+  color: inherit;
 }
 
 .selector-menu {

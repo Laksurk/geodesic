@@ -175,7 +175,7 @@ function updateHUD() {
   hudName.textContent = currentSurface.name;
 
   hudFormula.innerHTML = currentSurface.formula
-    ? '<span class="label">\u03C6(s, t) = </span><span class="val">' + currentSurface.formula + '</span>'
+    ? '<span class="val">\u03C6(s, t) = ' + currentSurface.formula + '</span>'
     : '';
 
   hudST.innerHTML =

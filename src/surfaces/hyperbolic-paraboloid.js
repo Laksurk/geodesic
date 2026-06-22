@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createHyperbolicParaboloidSurface() {
   return new ParametricSurface({
     name: '双曲抛物面 (Hyperbolic Paraboloid)',
-    formula: '𝝋(s, t) = (s,  t,  s² − t²)',
+    formula: '(s,  t,  s² − t²)',
     domain: {
       s: [-5, 5],
       t: [-5, 5],

@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createEllipsoidSurface(a = 1.6, b = 1.0, c = 0.8) {
   return new ParametricSurface({
     name: '椭球面 (Ellipsoid)',
-    formula: `𝝋(s, t) = (${a.toFixed(1)} sin s cos t,  ${b.toFixed(1)} sin s sin t,  ${c.toFixed(1)} cos s)`,
+    formula: `(${a.toFixed(1)} sin s cos t,  ${b.toFixed(1)} sin s sin t,  ${c.toFixed(1)} cos s)`,
     domain: {
       s: [0.005, Math.PI - 0.005],
       t: [-Math.PI, Math.PI],

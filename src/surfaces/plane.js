@@ -4,7 +4,7 @@ import { ParametricSurface } from '../math/parametric-surface.js';
 export function createPlaneSurface() {
   return new ParametricSurface({
     name: '平面 (Plane)',
-    formula: '𝝋(s, t) = (s,  t,  0)',
+    formula: '(s,  t,  0)',
     domain: {
       s: [-8, 8],
       t: [-8, 8],
