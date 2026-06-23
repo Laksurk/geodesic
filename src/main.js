@@ -150,9 +150,15 @@ window.addEventListener('mousemove', (event) => {
 
 // ---- Touch / Mobile Support ----
 // Holding finger on screen ≡ pressing Space; finger X position ≡ mouse X.
+// Touches inside HUD or win overlay are excluded — they need native click events.
+function isUI(target) {
+  return target.closest('.hud') || target.closest('.win-overlay');
+}
+
 window.addEventListener('touchstart', (event) => {
   const touch = event.changedTouches[0];
   if (!touch) return;
+  if (isUI(event.target)) return;
   event.preventDefault();
   if (player) {
     setPlayerMouseX(player, touch.clientX);
@@ -163,11 +169,13 @@ window.addEventListener('touchstart', (event) => {
 window.addEventListener('touchmove', (event) => {
   const touch = event.changedTouches[0];
   if (!touch) return;
+  if (isUI(event.target)) return;
   event.preventDefault();
   if (player) setPlayerMouseX(player, touch.clientX);
 }, { passive: false });
 
 window.addEventListener('touchend', (event) => {
+  if (isUI(event.target)) return;
   event.preventDefault();
   if (player) setPlayerMoving(player, false);
 }, { passive: false });
