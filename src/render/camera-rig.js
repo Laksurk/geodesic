@@ -2,7 +2,7 @@
 
 export function placeCameraOnSurface(camera, surface, state, eyeHeight = 0.08, sideSign = 1) {
   const point = surface.pointAt(state.s, state.t);
-  const ns = (state.normalSign || 1) * sideSign;
+  const ns = (state.normalSign ?? 1) * sideSign;
   const normal = surface.normalAt(state.s, state.t).multiplyScalar(ns);
 
   // Forward is the player's world-space velocity
