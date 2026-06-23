@@ -154,6 +154,11 @@ function stepOnSurface(player, surface, distance, geodesicCurvature) {
     const flippedDir = [-dir[0], dir[1]];
     const newVel = surface.worldTangentAt(player.s, player.t, flippedDir);
     if (newVel.lengthSq() > 1e-12) player.velocity.copy(newVel.normalize());
+
+    const newNormal = surface.normalAt(player.s, player.t);
+    const projVel = player.velocity.clone().sub(
+      newNormal.clone().multiplyScalar(player.velocity.dot(newNormal))
+    );
     if (projVel.lengthSq() > 1e-12) player.velocity.copy(projVel.normalize());
   } else {
     player.s = newS;
