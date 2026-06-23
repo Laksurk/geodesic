@@ -148,6 +148,30 @@ window.addEventListener('mousemove', (event) => {
   if (player) setPlayerMouseX(player, event.clientX);
 });
 
+// ---- Touch / Mobile Support ----
+// Holding finger on screen ≡ pressing Space; finger X position ≡ mouse X.
+window.addEventListener('touchstart', (event) => {
+  const touch = event.changedTouches[0];
+  if (!touch) return;
+  event.preventDefault();
+  if (player) {
+    setPlayerMouseX(player, touch.clientX);
+    setPlayerMoving(player, true);
+  }
+}, { passive: false });
+
+window.addEventListener('touchmove', (event) => {
+  const touch = event.changedTouches[0];
+  if (!touch) return;
+  event.preventDefault();
+  if (player) setPlayerMouseX(player, touch.clientX);
+}, { passive: false });
+
+window.addEventListener('touchend', (event) => {
+  event.preventDefault();
+  if (player) setPlayerMoving(player, false);
+}, { passive: false });
+
 function resize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -156,6 +180,14 @@ function resize() {
 }
 
 window.addEventListener('resize', resize);
+
+// ---- Collapse / Expand HUD ----
+const collapseBtn = document.getElementById('collapseBtn');
+const hud = document.getElementById('hud');
+collapseBtn.addEventListener('click', () => {
+  hud.classList.toggle('collapsed');
+  collapseBtn.title = hud.classList.contains('collapsed') ? '展开' : '收起';
+});
 
 // ---- HUD Update ----
 const hudName = document.getElementById('hudName');
@@ -219,7 +251,16 @@ document.getElementById('winOverlay').addEventListener('click', () => {
 });
 
 // ---- Init ----
-loadSurface('unit-sphere');
+// 支持 #K 直接跳转到 Klein 瓶
+function applyHash() {
+  if (window.location.hash === '#K') {
+    if (currentSurfaceKey !== 'klein-bottle') loadSurface('klein-bottle');
+  } else if (!currentSurface) {
+    loadSurface('unit-sphere');
+  }
+}
+applyHash();
+window.addEventListener('hashchange', applyHash);
 
 // ---- Animation Loop ----
 let previousTime = 0;
