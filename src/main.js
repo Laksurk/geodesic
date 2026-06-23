@@ -64,25 +64,45 @@ let currentSurfaceKey = 'unit-sphere';
 let currentSurface = null;
 let player = null;
 let cameraFrame = null;
+let gridDensity = 1;
+
+function disposeObject(object) {
+  object.traverse((child) => {
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) {
+      if (Array.isArray(child.material)) {
+        child.material.forEach((material) => material.dispose());
+      } else {
+        child.material.dispose();
+      }
+    }
+  });
+}
+
+function clearSurfaceGroup() {
+  while (surfaceGroup.children.length) {
+    const child = surfaceGroup.children[0];
+    disposeObject(child);
+    surfaceGroup.remove(child);
+  }
+}
+
+function rebuildSurfaceVisuals() {
+  if (!currentSurface) return;
+
+  clearSurfaceGroup();
+  const { mesh, wire } = createSurfaceMesh(currentSurface, gridDensity);
+  surfaceGroup.add(mesh, wire);
+}
 
 // ---- Surface Loading ----
 function loadSurface(surfaceKey) {
   const entry = surfaceRegistry[surfaceKey];
   if (!entry) return;
 
-  // Clear old surface objects
-  while (surfaceGroup.children.length) {
-    const child = surfaceGroup.children[0];
-    if (child.geometry) child.geometry.dispose();
-    if (child.material) child.material.dispose();
-    surfaceGroup.remove(child);
-  }
-
   currentSurfaceKey = surfaceKey;
   currentSurface = entry.factory();
-
-  const { mesh, wire } = createSurfaceMesh(currentSurface);
-  surfaceGroup.add(mesh, wire);
+  rebuildSurfaceVisuals();
 
   player = createInitialPlayerState(currentSurface, entry.initDir, entry.startST);
   cameraFrame = placeCameraOnSurface(camera, currentSurface, player);
@@ -101,6 +121,20 @@ function loadSurface(surfaceKey) {
 const selector = document.getElementById('surfaceSelector');
 const toggleBtn = document.getElementById('selectorToggle');
 const menu = document.getElementById('selectorMenu');
+const gridDensitySlider = document.getElementById('gridDensity');
+const gridDensityValue = document.getElementById('gridDensityValue');
+
+function updateGridDensityLabel() {
+  gridDensityValue.textContent = `${Math.round(gridDensity * 100)}%`;
+}
+
+gridDensitySlider.addEventListener('input', () => {
+  gridDensity = Number(gridDensitySlider.value) / 100;
+  updateGridDensityLabel();
+  rebuildSurfaceVisuals();
+});
+
+updateGridDensityLabel();
 
 toggleBtn.addEventListener('click', (e) => {
   e.stopPropagation();

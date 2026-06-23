@@ -5,6 +5,12 @@ export function createHyperboloidSurface() {
   return new ParametricSurface({
     name: '单叶双曲面 (Hyperboloid)',
     formula: '(cosh s cos t,  cosh s sin t,  sinh s)',
+    grid: {
+      sLines: 30,
+      tLines: 30,
+      pointsPerLine: 150,
+      majorStep: 5,
+    },
     domain: {
       s: [-2.2, 2.2],
       t: [-Math.PI, Math.PI],

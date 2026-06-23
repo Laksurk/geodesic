@@ -6,6 +6,12 @@ export function createCylinderSurface() {
     name: '圆柱面 (Cylinder)',
     periodicS: true,
     formula: '(cos s,  sin s,  t)',
+    grid: {
+      sLines: 28,
+      tLines: 28,
+      pointsPerLine: 120,
+      majorStep: 4,
+    },
     domain: {
       s: [-Math.PI, Math.PI],
       t: [-5, 5],

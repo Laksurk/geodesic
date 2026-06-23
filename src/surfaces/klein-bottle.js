@@ -7,6 +7,12 @@ export function createKleinBottleSurface() {
   return new ParametricSurface({
     name: 'Klein瓶 (Klein Bottle) ',
     periodicS: true,
+    grid: {
+      sLines: 40,
+      tLines: 40,
+      pointsPerLine: 180,
+      majorStep: 5,
+    },
     wrapS: (s, t, sMin, sMax) => {
       const range = sMax - sMin;
       let newS = s;

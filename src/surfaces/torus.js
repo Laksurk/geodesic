@@ -5,6 +5,12 @@ export function createTorusSurface(R = 1.5, r = 0.6) {
   return new ParametricSurface({
     name: '环面 (Torus)',
     periodicS: true,
+    grid: {
+      sLines: 34,
+      tLines: 34,
+      pointsPerLine: 150,
+      majorStep: 5,
+    },
     formula: '((1.5 + 0.6 cos t) cos s,  (1.5 + 0.6 cos t) sin s,  0.6 sin t)',
     domain: {
       s: [-Math.PI, Math.PI],

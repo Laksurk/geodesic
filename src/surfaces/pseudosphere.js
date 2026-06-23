@@ -5,6 +5,12 @@ export function createPseudosphereSurface() {
   return new ParametricSurface({
     name: '伪球面 (Pseudosphere)',
     formula: '(sech s cos t,  sech s sin t,  s − tanh s)',
+    grid: {
+      sLines: 38,
+      tLines: 30,
+      pointsPerLine: 180,
+      majorStep: 5,
+    },
     domain: {
       s: [0.01, 6],
       t: [-Math.PI, Math.PI],
