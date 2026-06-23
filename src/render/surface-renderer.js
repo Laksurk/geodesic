@@ -7,9 +7,9 @@ export function createSurfaceMesh(surface, densityScale = 1) {
     segmentsS: baseSegmentsS,
     segmentsT: baseSegmentsT,
   } = surface.domain;
-  const scale = THREE.MathUtils.clamp(densityScale, 0.5, 2);
-  const segmentsS = Math.max(2, Math.round(baseSegmentsS * scale));
-  const segmentsT = Math.max(2, Math.round(baseSegmentsT * scale));
+  // Surface mesh always uses full resolution; densityScale only affects the grid.
+  const segmentsS = baseSegmentsS;
+  const segmentsT = baseSegmentsT;
 
   // ---- Translucent light surface ----
   const vertices = [];
@@ -72,16 +72,19 @@ export function createSurfaceMesh(surface, densityScale = 1) {
 
 function createParameterGrid(surface, densityScale = 1) {
   const group = new THREE.Group();
+  // Density 0 means no grid lines at all.
+  if (densityScale <= 0) return group;
+
   const {
     s: [sMin, sMax],
     t: [tMin, tMax],
   } = surface.domain;
 
   const grid = surface.grid || {};
-  const scale = THREE.MathUtils.clamp(densityScale, 0.5, 2);
+  const scale = THREE.MathUtils.clamp(densityScale, 0.5, 3);
   const sLines = Math.max(2, Math.round((grid.sLines ?? 36) * scale));
   const tLines = Math.max(2, Math.round((grid.tLines ?? 36) * scale));
-  const ptsPerLine = Math.max(16, Math.round((grid.pointsPerLine ?? 160) * scale));
+  const ptsPerLine = Math.max(4, Math.round((grid.pointsPerLine ?? 160) * scale));
   const majorStep = Math.max(1, Math.round((grid.majorStep ?? 6) * scale));
 
   // --- s-const lines — blue ---

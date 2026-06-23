@@ -240,6 +240,13 @@ collapseBtn.addEventListener('click', () => {
   collapseBtn.title = hud.classList.contains('collapsed') ? '展开' : '收起';
 });
 
+// ---- Collapse / Expand Grid Density ----
+const gridCollapseBtn = document.getElementById('gridCollapseBtn');
+gridCollapseBtn.addEventListener('click', () => {
+  hud.classList.toggle('hud-grid-collapsed');
+  gridCollapseBtn.title = hud.classList.contains('hud-grid-collapsed') ? '展开' : '收起';
+});
+
 // ---- HUD Update ----
 const hudName = document.getElementById('hudName');
 const hudFormula = document.getElementById('hudFormula');
