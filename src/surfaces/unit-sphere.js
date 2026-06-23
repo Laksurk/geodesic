@@ -5,6 +5,12 @@ export function createUnitSphereSurface() {
   return new ParametricSurface({
     name: '单位球面 (Sphere)',
     formula: '(sin s cos t,  sin s sin t,  cos s)',
+    grid: {
+      sLines: 30,
+      tLines: 40,
+      pointsPerLine: 180,
+      majorStep: 5,
+    },
     domain: {
       s: [0.001, Math.PI - 0.001],
       t: [-Math.PI, Math.PI],

@@ -1,12 +1,15 @@
 import * as THREE from 'https://esm.sh/three@0.165.0';
 
-export function createSurfaceMesh(surface) {
+export function createSurfaceMesh(surface, densityScale = 1) {
   const {
     s: [sMin, sMax],
     t: [tMin, tMax],
-    segmentsS,
-    segmentsT,
+    segmentsS: baseSegmentsS,
+    segmentsT: baseSegmentsT,
   } = surface.domain;
+  const scale = THREE.MathUtils.clamp(densityScale, 0.5, 2);
+  const segmentsS = Math.max(2, Math.round(baseSegmentsS * scale));
+  const segmentsT = Math.max(2, Math.round(baseSegmentsT * scale));
 
   // ---- Translucent light surface ----
   const vertices = [];
@@ -62,22 +65,24 @@ export function createSurfaceMesh(surface) {
   mesh.renderOrder = 0;
 
   // ---- Parameter grid lines (main visual) ----
-  const gridGroup = createParameterGrid(surface);
+  const gridGroup = createParameterGrid(surface, densityScale);
 
   return { mesh, wire: gridGroup };
 }
 
-function createParameterGrid(surface) {
+function createParameterGrid(surface, densityScale = 1) {
   const group = new THREE.Group();
   const {
     s: [sMin, sMax],
     t: [tMin, tMax],
   } = surface.domain;
 
-  const sLines = 36;
-  const tLines = 36;
-  const ptsPerLine = 160;
-  const majorStep = 6;
+  const grid = surface.grid || {};
+  const scale = THREE.MathUtils.clamp(densityScale, 0.5, 2);
+  const sLines = Math.max(2, Math.round((grid.sLines ?? 36) * scale));
+  const tLines = Math.max(2, Math.round((grid.tLines ?? 36) * scale));
+  const ptsPerLine = Math.max(16, Math.round((grid.pointsPerLine ?? 160) * scale));
+  const majorStep = Math.max(1, Math.round((grid.majorStep ?? 6) * scale));
 
   // --- s-const lines — blue ---
   for (let i = 0; i <= sLines; i++) {

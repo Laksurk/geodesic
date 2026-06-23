@@ -5,6 +5,12 @@ export function createEllipsoidSurface(a = 1.6, b = 1.0, c = 0.8) {
   return new ParametricSurface({
     name: '椭球面 (Ellipsoid)',
     formula: `(${a.toFixed(1)} sin s cos t,  ${b.toFixed(1)} sin s sin t,  ${c.toFixed(1)} cos s)`,
+    grid: {
+      sLines: 32,
+      tLines: 32,
+      pointsPerLine: 150,
+      majorStep: 5,
+    },
     domain: {
       s: [0.005, Math.PI - 0.005],
       t: [-Math.PI, Math.PI],

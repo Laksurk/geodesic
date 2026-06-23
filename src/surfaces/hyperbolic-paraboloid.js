@@ -5,6 +5,12 @@ export function createHyperbolicParaboloidSurface() {
   return new ParametricSurface({
     name: '双曲抛物面 (Hyperbolic Paraboloid)',
     formula: '(s,  t,  s² − t²)',
+    grid: {
+      sLines: 28,
+      tLines: 28,
+      pointsPerLine: 150,
+      majorStep: 4,
+    },
     domain: {
       s: [-5, 5],
       t: [-5, 5],
