@@ -124,14 +124,23 @@ const menu = document.getElementById('selectorMenu');
 const gridDensitySlider = document.getElementById('gridDensity');
 const gridDensityValue = document.getElementById('gridDensityValue');
 
+gridDensity = Number(gridDensitySlider.value) / 100;
+
 function updateGridDensityLabel() {
   gridDensityValue.textContent = `${Math.round(gridDensity * 100)}%`;
 }
 
+let pendingGridRebuild = false;
 gridDensitySlider.addEventListener('input', () => {
   gridDensity = Number(gridDensitySlider.value) / 100;
   updateGridDensityLabel();
-  rebuildSurfaceVisuals();
+
+  if (pendingGridRebuild) return;
+  pendingGridRebuild = true;
+  requestAnimationFrame(() => {
+    pendingGridRebuild = false;
+    rebuildSurfaceVisuals();
+  });
 });
 
 updateGridDensityLabel();
