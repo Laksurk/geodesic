@@ -64,6 +64,7 @@ let currentSurfaceKey = 'unit-sphere';
 let currentSurface = null;
 let player = null;
 let cameraFrame = null;
+let cameraSideSign = 1;
 let gridDensity = 1;
 
 function disposeObject(object) {
@@ -105,7 +106,8 @@ function loadSurface(surfaceKey) {
   rebuildSurfaceVisuals();
 
   player = createInitialPlayerState(currentSurface, entry.initDir, entry.startST);
-  cameraFrame = placeCameraOnSurface(camera, currentSurface, player);
+  if (cameraSideSign < 0) player.dirSign *= -1;
+  cameraFrame = placeCameraOnSurface(camera, currentSurface, player, 0.08, cameraSideSign);
 
   // Reset win flag for this surface session
   surfaceWinFired = false;
@@ -121,6 +123,16 @@ function loadSurface(surfaceKey) {
 const selector = document.getElementById('surfaceSelector');
 const toggleBtn = document.getElementById('selectorToggle');
 const menu = document.getElementById('selectorMenu');
+const flipSideBtn = document.getElementById('flipSideBtn');
+
+flipSideBtn.addEventListener('click', () => {
+  cameraSideSign *= -1;
+  if (currentSurface && player) {
+    player.dirSign *= -1;
+    cameraFrame = placeCameraOnSurface(camera, currentSurface, player, 0.08, cameraSideSign);
+  }
+});
+
 const gridDensitySlider = document.getElementById('gridDensity');
 const gridDensityValue = document.getElementById('gridDensityValue');
 
@@ -332,7 +344,7 @@ renderer.setAnimationLoop((time) => {
 
   if (currentSurface && player && !document.getElementById('winOverlay').classList.contains('show')) {
     updatePlayerOnSurface(player, currentSurface, dt);
-    cameraFrame = placeCameraOnSurface(camera, currentSurface, player);
+    cameraFrame = placeCameraOnSurface(camera, currentSurface, player, 0.08, cameraSideSign);
   }
 
   // Rotate crosshair: angular velocity = k_g (from mouse), only when moving

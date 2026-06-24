@@ -116,10 +116,28 @@ body {
 }
 
 .hud-control {
-  flex-wrap: wrap;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+}
+
+.hud-btn {
+  padding: 2px 8px;
+  border: 1px solid rgb(237 247 255 / 0.2);
+  border-radius: 6px;
+  background: rgb(237 247 255 / 0.06);
+  color: rgb(237 247 255 / 0.88);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.hud-btn:hover {
+  background: rgb(237 247 255 / 0.14);
+  color: #ffffff;
 }
 
 .hud-control input[type='range'] {
