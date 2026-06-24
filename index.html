@@ -61,7 +61,19 @@
           <button class="hud-btn" id="flipSideBtn" type="button">翻转法向</button>
         </div>
       </div>
-      <div class="hud-hint">Space/触屏: 前进 · 鼠标/手指: 转向</div>
+      <div class="hud-hint" id="hudHintRow">
+        <span>Space/触屏: 前进 · 鼠标/手指: 转向</span>
+        <button class="collapse-btn collapse-btn--sm" id="gridCollapseBtn" title="收起">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <path d="M2 8L6 4L10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="hud-row hud-control" id="hudGridSection">
+        <label class="label" for="gridDensity">网格密度</label>
+        <input id="gridDensity" type="range" min="0" max="300" step="50" value="100" />
+        <span class="val" id="gridDensityValue">100%</span>
+      </div>
     </div>
 
     <div class="win-overlay" id="winOverlay">

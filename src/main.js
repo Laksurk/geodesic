@@ -65,25 +65,45 @@ let currentSurface = null;
 let player = null;
 let cameraFrame = null;
 let cameraSideSign = 1;
+let gridDensity = 1;
+
+function disposeObject(object) {
+  object.traverse((child) => {
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) {
+      if (Array.isArray(child.material)) {
+        child.material.forEach((material) => material.dispose());
+      } else {
+        child.material.dispose();
+      }
+    }
+  });
+}
+
+function clearSurfaceGroup() {
+  while (surfaceGroup.children.length) {
+    const child = surfaceGroup.children[0];
+    disposeObject(child);
+    surfaceGroup.remove(child);
+  }
+}
+
+function rebuildSurfaceVisuals() {
+  if (!currentSurface) return;
+
+  clearSurfaceGroup();
+  const { mesh, wire } = createSurfaceMesh(currentSurface, gridDensity);
+  surfaceGroup.add(mesh, wire);
+}
 
 // ---- Surface Loading ----
 function loadSurface(surfaceKey) {
   const entry = surfaceRegistry[surfaceKey];
   if (!entry) return;
 
-  // Clear old surface objects
-  while (surfaceGroup.children.length) {
-    const child = surfaceGroup.children[0];
-    if (child.geometry) child.geometry.dispose();
-    if (child.material) child.material.dispose();
-    surfaceGroup.remove(child);
-  }
-
   currentSurfaceKey = surfaceKey;
   currentSurface = entry.factory();
-
-  const { mesh, wire } = createSurfaceMesh(currentSurface);
-  surfaceGroup.add(mesh, wire);
+  rebuildSurfaceVisuals();
 
   player = createInitialPlayerState(currentSurface, entry.initDir, entry.startST);
   if (cameraSideSign < 0) player.dirSign *= -1;
@@ -112,6 +132,30 @@ flipSideBtn.addEventListener('click', () => {
     cameraFrame = placeCameraOnSurface(camera, currentSurface, player, 0.08, cameraSideSign);
   }
 });
+
+const gridDensitySlider = document.getElementById('gridDensity');
+const gridDensityValue = document.getElementById('gridDensityValue');
+
+gridDensity = Number(gridDensitySlider.value) / 100;
+
+function updateGridDensityLabel() {
+  gridDensityValue.textContent = `${Math.round(gridDensity * 100)}%`;
+}
+
+let pendingGridRebuild = false;
+gridDensitySlider.addEventListener('input', () => {
+  gridDensity = Number(gridDensitySlider.value) / 100;
+  updateGridDensityLabel();
+
+  if (pendingGridRebuild) return;
+  pendingGridRebuild = true;
+  requestAnimationFrame(() => {
+    pendingGridRebuild = false;
+    rebuildSurfaceVisuals();
+  });
+});
+
+updateGridDensityLabel();
 
 toggleBtn.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -206,6 +250,13 @@ const hud = document.getElementById('hud');
 collapseBtn.addEventListener('click', () => {
   hud.classList.toggle('collapsed');
   collapseBtn.title = hud.classList.contains('collapsed') ? '展开' : '收起';
+});
+
+// ---- Collapse / Expand Grid Density ----
+const gridCollapseBtn = document.getElementById('gridCollapseBtn');
+gridCollapseBtn.addEventListener('click', () => {
+  hud.classList.toggle('hud-grid-collapsed');
+  gridCollapseBtn.title = hud.classList.contains('hud-grid-collapsed') ? '展开' : '收起';
 });
 
 // ---- HUD Update ----

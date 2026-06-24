@@ -5,6 +5,12 @@ export function createParaboloidSurface() {
   return new ParametricSurface({
     name: '椭圆抛物面 (Elliptic Paraboloid)',
     formula: '(s,  t,  s² + t²)',
+    grid: {
+      sLines: 28,
+      tLines: 28,
+      pointsPerLine: 150,
+      majorStep: 4,
+    },
     domain: {
       s: [-4, 4],
       t: [-4, 4],

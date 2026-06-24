@@ -3,11 +3,12 @@
 const DEFAULT_EPSILON = 1e-4;
 
 export class ParametricSurface {
-  constructor({ name, domain, position, tangentS, tangentT, parametersFromPoint, formula, periodicS, wrapS }) {
+  constructor({ name, domain, position, tangentS, tangentT, parametersFromPoint, formula, periodicS, wrapS, grid }) {
     this.name = name;
     this.formula = formula || '';
     this.periodicS = periodicS || false;
     this.wrapS = wrapS; // optional: (s, t, sMin, sMax) => [newS, newT, flipDt]
+    this.grid = grid || null;
     this.domain = domain;
     this.position = position;
     this.tangentS = tangentS ?? ((s, t) => this.numericTangent(s, t, 's'));

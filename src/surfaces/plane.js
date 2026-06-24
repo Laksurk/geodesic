@@ -5,6 +5,12 @@ export function createPlaneSurface() {
   return new ParametricSurface({
     name: '平面 (Plane)',
     formula: '(s,  t,  0)',
+    grid: {
+      sLines: 24,
+      tLines: 24,
+      pointsPerLine: 120,
+      majorStep: 4,
+    },
     domain: {
       s: [-8, 8],
       t: [-8, 8],
